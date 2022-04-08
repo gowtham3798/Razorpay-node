@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 app.post('/razorpay',async (req, res) => {
     const payment_capture = 1;
-    const amount = 500;
+    const amount = 119000;
     const currency = 'INR'
     const options = {
         amount : (amount*100),
@@ -49,6 +49,31 @@ app.post('/razorpay',async (req, res) => {
          console.log(err)
      }
 })
+
+app.post('/ecomrazorpay',async (req, res) => {
+    const payment_capture = 1;
+    const amount = 119000;
+    const currency = 'INR'
+    const options = {
+        amount : (amount*100),
+        currency,
+        receipt:shortid.generate(),
+        payment_capture
+    }
+    try{
+        const response = await liverazorpay.orders.create(options)
+        console.log(response)
+        res.json({
+            id : response.id,
+            currency : response.currency,
+            amount : response.amount
+        })
+    }
+     catch(err){
+         console.log(err)
+     }
+})
+
 
 app.post('/liverazorpay',async (req, res) => {
     const payment_capture = 1;
